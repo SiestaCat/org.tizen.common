@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+    <extension-point id="org.tizen.common.prompter" name="%extension-point.prompter" schema="schema/org.tizen.common.prompter.exsd"/>
+    <extension-point id="org.tizen.common.crashreporter" name="%extension-point.crashreporter" schema="schema/org.tizen.common.crashreporter.exsd"/>
+    <extension-point id="org.tizen.common.project.adapter" name="%extension-point.project" schema="schema/org.tizen.common.project.exsd"/>
+    <extension-point id="org.tizen.common.package.install" name="Tizen Package Configuration" schema="schema/org.tizen.common.package.install.exsd"/>
+    <extension
+        point="org.eclipse.ui.bindings">
+        <key
+            commandId="org.eclipse.ui.project.buildProject"
+            contextId="org.eclipse.ui.contexts.window"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            sequence="F10">
+        </key>
+    </extension>
+    <extension
+        point="org.eclipse.ui.newWizards">
+        <category
+            id="org.tizen.nativeapp.newCategory"
+            name="%name">
+        </category>
+    </extension>
+    <extension
+        point="org.eclipse.ui.preferencePages">
+        <page
+            class="org.tizen.common.ui.page.preference.TizenBasePreferencePage"
+            id="org.tizen.common.preferences.tizencommon"
+            name="%page.name">
+        </page>
+        <page
+            category="org.tizen.common.preferences.tizencommon"
+            class="org.tizen.common.rds.ui.preference.RdsPreferencePage"
+            id="org.tizen.common.preferences.rds"
+            name="%org.tizen.common.preferences.rds.name">
+        </page>
+        <page
+            category="org.tizen.common.preferences.tizencommon"
+            class="org.tizen.common.ui.page.preference.LoggingPreferencePage"
+            id="org.tizen.common.preferences.logging"
+            name="%org.tizen.common.preferences.logging.name">
+        </page>
+        <page
+            class="org.tizen.common.ui.page.preference.TizenToolsPreferencePage"
+            id="org.tizen.common.preferences.tizentools"
+            name="%org.tizen.common.preferences.tools.name"
+            category="org.tizen.common.preferences.tizencommon">
+        </page>
+        <page
+            class="org.tizen.common.ui.page.preference.SdbPreferencePage"
+            id="org.tizen.common.preferences.tools.sdb"
+            name="%org.tizen.common.preferences.tools.sdb.name"
+            category="org.tizen.common.preferences.tizentools">
+        </page>
+        <page
+            class="org.tizen.common.ui.page.preference.AnalyticsPreferencePage"
+            id="org.tizen.common.preferences.tools.analytics"
+            name="%org.tizen.common.preferences.tools.analytics"
+            category="org.tizen.common.preferences.tizentools">
+        </page>
+        <page
+            class="org.tizen.common.ui.page.preference.TizenOtherBasePreferencePage"
+            id="org.tizen.common.preferences.others"
+            name="%org.tizen.common.preferences.others.name">
+        </page>
+    </extension>
+    <!-- activities start -->
+    <extension
+        point="org.eclipse.ui.activities">
+        <!-- disable rhino launch shortcuts & wst launch shortcut -->
+        <activity
+            name="%activity.name.2"
+            description="%activity.description"
+            id="org.tizen.web.launch.DisablePopupMenu">
+        <enabledWhen>
+            <with variable="activeWorkbenchWindow.activePerspective">
+                <and>
+                    <not>
+                        <equals value="org.tizen.web.ui.perspective.WebWidget"/>
+                    </not>
+                    <not>
+                        <equals value="org.tizen.nativeapp.perspective"/>
+                    </not>
+                    <not>
+                        <equals value="org.tizen.nativeplatform.perspective"/>
+                    </not>
+                    <not>
+                        <equals value="org.tizen.webguibuilder.BuilderPerspective"/>
+                    </not>
+                    <not>
+                        <equals value="org.tizen.efluibuilder.ui.perspective.NUIBPerspective"/>
+                    </not>
+                </and>
+            </with>
+        </enabledWhen>
+        </activity>
+        <activityPatternBinding
+            activityId="org.tizen.web.launch.DisablePopupMenu"
+            pattern="org.eclipse.wst.server.ui/org.eclipse.wst.server.launchShortcut*">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.launch.DisablePopupMenu"
+            pattern="org.eclipse.wst.jsdt.debug.rhino.ui/org.eclipse.wst.jsdt.debug.rhino.ui.launch.shortcut*">
+        </activityPatternBinding>
+    </extension>
+
+    <extension
+        point="org.eclipse.ui.activities">
+        <!-- disable CDT launch ui -->
+        <category
+            name="%category.name.0"
+            description="%category.description"
+            id="org.tizen.nativeapp.CDTLaunchUICategory">
+         </category>
+
+        <activity
+            name="%activity.name.3"
+            description="%activity.description.0"
+            id="org.tizen.nativeapp.DisableCDTLaunchUIActivity">
+
+            <enabledWhen>
+                <with variable="activeWorkbenchWindow.activePerspective">
+                    <and>
+                        <not>
+                            <equals value="org.tizen.web.ui.perspective.WebWidget"/>
+                        </not>
+                        <not>
+                            <equals value="org.tizen.nativeapp.perspective"/>
+                        </not>
+                    	<not>
+                        	<equals value="org.tizen.nativeplatform.perspective"/>
+                    	</not>
+                        <not>
+                            <equals value="org.tizen.webguibuilder.BuilderPerspective"/>
+                        </not>
+                        <not>
+                            <equals value="org.tizen.efluibuilder.ui.perspective.NUIBPerspective"/>
+                        </not>
+                    </and>
+                </with>
+            </enabledWhen>
+        </activity>
+
+        <categoryActivityBinding
+            activityId="org.tizen.nativeapp.DisableCDTLaunchUIActivity"
+            categoryId="org.tizen.nativeapp.CDTLaunchUICategory">
+        </categoryActivityBinding>
+
+        <activityPatternBinding
+            activityId="org.tizen.nativeapp.DisableCDTLaunchUIActivity"
+            pattern="org\.eclipse\.cdt\.launch/org\.eclipse\.cdt\.launch\.launchGroup">
+        </activityPatternBinding>
+
+        <activityPatternBinding
+            activityId="org.tizen.nativeapp.DisableCDTLaunchUIActivity"
+            pattern="org\.eclipse\.cdt\.debug\.core/org\.eclipse\.cdt\.launch\.[a-zA-Z]*LaunchType">
+        </activityPatternBinding>
+
+        <activityPatternBinding
+            activityId="org.tizen.nativeapp.DisableCDTLaunchUIActivity"
+            pattern="org\.eclipse\.cdt\.debug\.ui/org\.eclipse\.cdt\.debug\.ui\.localCShortcut">
+        </activityPatternBinding>
+
+        <!-- disable CDT toolchain editor page -->
+        <category
+              description="%category.description.0"
+              id="org.tizen.nativeapp.CDTToolChainEditorPageCategory"
+              name="%category.name.1">
+        </category>
+        <activity
+              description="%activity.description.1"
+              id="org.tizen.nativeapp.DisableCDTToolChainEditorPageActivity"
+              name="%activity.name.4">
+            <enabledWhen>
+                <with variable="activeWorkbenchWindow.activePerspective">
+                    <and>
+                        <not>
+                            <equals value="org.tizen.web.ui.perspective.WebWidget"/>
+                        </not>
+                        <not>
+                            <equals value="org.tizen.nativeapp.perspective"/>
+                        </not>
+                    	<not>
+                        	<equals value="org.tizen.nativeplatform.perspective"/>
+                    	</not>
+                        <not>
+                            <equals value="org.tizen.webguibuilder.BuilderPerspective"/>
+                        </not>
+                        <not>
+                            <equals value="org.tizen.efluibuilder.ui.perspective.NUIBPerspective"/>
+                        </not>
+                    </and>
+                </with>
+            </enabledWhen>
+        </activity>
+        <categoryActivityBinding
+              activityId="org.tizen.nativeapp.DisableCDTToolChainEditorPageActivity"
+              categoryId="org.tizen.nativeapp.CDTToolChainEditorPageCategory">
+        </categoryActivityBinding>
+        <activityPatternBinding
+              activityId="org.tizen.nativeapp.DisableCDTToolChainEditorPageActivity"
+              pattern="org\.eclipse\.cdt\.managedbuilder\.ui/org\.eclipse\.cdt\.managedbuilder\.ui\.properties\.Page_ToolChain">
+        </activityPatternBinding>
+    </extension>
+
+    <extension
+        point="org.eclipse.ui.activities">
+        <!-- disable other new wizards -->
+        <activity
+            id="org.tizen.web.ui.modification.newXsdDisabler"
+            name="%activity.name">
+        </activity>
+        <activityPatternBinding
+            activityId="org.tizen.web.ui.modification.newXsdDisabler"
+            pattern="org.eclipse.wst.xsd.ui/org.eclipse.wst.xsd.ui.internal.wizards.*">
+        </activityPatternBinding>
+
+        <activity
+            id="org.tizen.web.ui.modification.newDtdDisabler"
+            name="%activity.name.0">
+        </activity>
+        <activityPatternBinding
+            activityId="org.tizen.web.ui.modification.newDtdDisabler"
+            pattern="org.eclipse.wst.dtd.ui/org.eclipse.wst.dtd.ui.internal.wizard.*">
+        </activityPatternBinding>
+
+        <activity
+            name="%activity.name.5"
+            description="%activity.description.2"
+            id="org.tizen.web.DisableWizardsActivity">
+            <enabledWhen>
+                <with variable="activeWorkbenchWindow.activePerspective">
+                    <and>
+                        <not>
+                            <equals value="org.tizen.web.ui.perspective.WebWidget"/>
+                        </not>
+                        <not>
+                            <equals value="org.tizen.nativeapp.perspective"/>
+                        </not>
+                    	<not>
+                        	<equals value="org.tizen.nativeplatform.perspective"/>
+                    	</not>                         
+                        <not>
+                            <equals value="org.tizen.webguibuilder.BuilderPerspective"/>
+                        </not>
+                        <not>
+                            <equals value="org.tizen.efluibuilder.ui.perspective.NUIBPerspective"/>
+                        </not>
+                    </and>
+                </with>
+            </enabledWhen>
+        </activity>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.jdt\.ui/org\.eclipse\.jdt\.ui\.wizards\.JavaProjectWizard">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.ant\.ui/org\.eclipse\.ant\.ui\.wizards\.JavaProjectWizard">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.emf\.importer/org\.eclipse\.emf\.importer\.ui\.EMFProjectWizard">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.emf\.codegen\.ecore\.ui/org\.eclipse\.emf\.codegen\.ecore\.ui\.EmptyProjectWizard">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.wst\.jsdt\.ui/org\.eclipse\.wst\.jsdt\.ui\.wizards\.JavaProjectWizard">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.wst\.xml\.ui/org\.eclipse\.wst\.xml\.ui\.XMLExampleProjectCreationWizard">
+        </activityPatternBinding>
+
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.emf\.ecore\.editor/org\.eclipse\.emf\.ecore\.presentation\.EcoreModelWizardID">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.emf\.mapping\.ecore2xml\.ui/org\.eclipse\.emf\.mapping\.ecore2xml\.presentation\.Ecore2XMLModelWizardID">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.emf\.mapping\.ecore2ecore\.editor/org\.eclipse\.emf\.mapping\.ecore2ecore\.presentation\.Ecore2EcoreModelWizardID">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.emf\.importer/org\.eclipse\.emf\.importer\.ui\.EMFModelWizard">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.emf\.importer/org\.eclipse\.emf\.importer\.ui\.EMFProjectWizard">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.jdt\.ui/org\.eclipse\.jdt\.ui\.wizards.*">
+        </activityPatternBinding>
+
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.jdt\.junit/org\.eclipse\.jdt\.junit\.wizards.*">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.jdt\.debug\.ui/org\.eclipse\.jdt\.debug\.ui\.snippetEditor\.NewSnippetFileCreationWizard">
+        </activityPatternBinding>
+         <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.wst\.server\.ui/org\.eclipse\.wst\.server\.ui\.new\.server">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.jst\.jsp\.ui/org\.eclipse\.jst\.jsp\.ui\.internal\.wizard.*">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.emf\.codegen\.ui/org\.eclipse\.emf\.codegen\.ui\.ConvertToJETProjectWizard">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.wst\.xsd\.ui/org\.eclipse\.wst\.xsd\.ui\.internal\.wizards\.NewXSDWizard">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.wst\.dtd\.ui/org\.eclipse\.wst\.dtd\.ui\.internal\.wizard\.NewDTDWizard">
+        </activityPatternBinding>
+        <!-- JSON File Wizard -->
+        <!-- activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="json\.editor\.plugin/Json\.newFileWizard">
+        </activityPatternBinding-->
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.wst\.xml\.ui/org\.eclipse\.wst\.xml\.ui\.internal\.wizards\.NewXMLWizard">
+        </activityPatternBinding>
+        <activityPatternBinding
+            activityId="org.tizen.web.DisableWizardsActivity"
+            pattern="org\.eclipse\.wst\.xml\.ui/org\.eclipse\.wst\.xml\.ui\.XMLExampleProjectCreationWizard">
+        </activityPatternBinding>
+    </extension>
+
+    <extension
+        point="org.eclipse.ui.activities">
+        <!-- PopupMenus Enabled when tizen Web IDE perspective -->
+        <activity
+            description="%activity.description.3"
+            id="org.tizen.web.PopupMenusActivity"
+            name="%activity.name.6">
+            <enabledWhen>
+                <and>
+                <with
+                    variable="activeWorkbenchWindow.activePerspective">
+                    <and>
+                        <equals
+                            value="org.tizen.web.ui.perspective.WebWidget">
+                        </equals>
+                    </and>
+                </with>
+                <with variable="selection">
+                    <iterate ifEmpty="false">
+                        <test property="org.eclipse.core.resources.projectNature"
+                            value="org.tizen.web.project.builder.WebNature" />
+                    </iterate>
+                </with>
+                </and>
+            </enabledWhen>
+        </activity>
+        <activityPatternBinding
+            activityId="org.tizen.web.PopupMenusActivity"
+            pattern="org.tizen.web.sign/org.tizen.web.sign.signwidgetaction">
+        </activityPatternBinding>
+        <activityPatternBinding
+             activityId="org.tizen.web.PopupMenusActivity"
+             pattern="org.tizen.web.localization/org.tizen.web.localization.menus.popup.localizationMenu">
+       </activityPatternBinding>
+    </extension>
+    <!-- activities end -->
+    <extension
+          point="org.eclipse.ui.importWizards">
+       <category
+             id="org.tizen.nativeapp.importCategory"
+             name="%name">
+       </category>
+    </extension>
+    <extension
+          point="org.eclipse.ui.exportWizards">
+       <category
+             id="org.tizen.nativeapp.exportCategory"
+             name="%name">
+       </category>
+    </extension>
+    <extension
+          point="org.eclipse.ui.propertyPages">
+       <page
+             class="org.tizen.common.ui.page.properties.TizenProperties"
+             id="org.tizen.common.properties.tizen"
+             name="%page.name">
+          <enabledWhen>
+             <adapt
+                   type="org.eclipse.core.resources.IProject">
+             </adapt>
+          </enabledWhen>
+       </page>
+       <page
+             class="org.tizen.common.ui.page.properties.TizenOthersBaseProperties"
+             id="org.tizen.common.properties.others"
+             name="%org.tizen.common.preferences.others.name">
+       </page>
+       <page
+            category="org.tizen.common.properties.tizen"
+            class="org.tizen.common.rds.ui.preference.RdsPreferencePage"
+            id="org.tizen.common.properties.rds"
+            name="%org.tizen.common.preferences.rds.name">
+          <enabledWhen>
+             <adapt
+                   type="org.eclipse.core.resources.IProject">
+             </adapt>
+          </enabledWhen>
+      </page>
+    </extension>
+
+    <!-- RDS Marker -->
+    <extension
+          id="org.tizen.common.launch.rdsMarker"
+          name="RDS Problem"
+          point="org.eclipse.core.resources.markers">
+      <persistent
+            value="false">
+      </persistent>
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+    </extension>
+
+    <extension
+          point="org.eclipse.ui.startup">
+       <startup
+             class="org.tizen.common.CommonStartup">
+       </startup>
+    </extension>
+    <!-- Tizen Key Binding -->
+    <extension point="org.eclipse.ui.commands">
+        <command
+            id="org.tizen.common.ui.command.buildpackage"
+            categoryId="org.tizen.common.ui.command.buildpackage.category"
+            name="%command.buildpackage.name"
+            description="%command.buildpackage.desc" />
+        <category
+            name="%command.buildpackage.category.desc"
+            description="%command.buildpackage.category.desc"
+            id="org.tizen.common.ui.command.buildpackage.category">
+        </category>
+        <command
+            id="org.tizen.common.ui.command.buildclean.action"
+            categoryId="org.tizen.common.ui.command.buildclean.category"
+            name="%command.buildclean.name"
+            description="%command.buildclean.desc" />
+        <category
+            name="%command.buildclean.category.name"
+            description="%command.buildclean.category.desc"
+            id="org.tizen.common.ui.command.buildclean.category">
+        </category>
+        <command
+            id="org.tizen.common.connection.emulatorManager"
+            name="%command.em.name" />
+        <command
+            id="org.tizen.ui.excute.dynamicAnalyzer"
+            name="%command.da.name" />
+        <command
+            id="org.tizen.ui.excute.packageManager"
+            name="%command.pm.name" />
+        <command
+            id="org.tizen.common.signing.certificateManager"
+            name="%command.cm.name" />
+        <command
+            id="org.tizen.ui.excute.deviceManager"
+            name="%command.dm.name" />
+        <command
+            id="org.tizen.ui.excute.batteryhistorian"
+            name="%command.bh.name" />
+    </extension>
+    <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.tizen.common.shortcut.BuildPackageProjectHandler"
+            commandId="org.tizen.common.ui.command.buildpackage">
+      </handler>
+   </extension>
+    <extension point="org.eclipse.ui.bindings">
+      <key
+            commandId="org.tizen.common.ui.command.projectwizard"
+            sequence="M1+M2+N"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+      <key
+            commandId="org.tizen.common.ui.command.buildpackage"
+            sequence="M2+M3+F10"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+      <key
+            commandId="org.tizen.common.ui.command.buildclean.action"
+            sequence="M1+M3+F10"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+      <key
+            commandId="org.eclipse.ui.window.preferences"
+            sequence="M2+M3+ENTER"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+      <key
+            commandId="org.tizen.common.connection.emulatorManager"
+            sequence="M2+M3+E"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+      <key
+            commandId="org.tizen.ui.excute.dynamicAnalyzer"
+            sequence="M2+M3+D"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+      <key
+            commandId="org.tizen.ui.excute.packageManager"
+            sequence="M2+M3+P"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+      <key
+            commandId="org.tizen.common.signing.certificateManager"
+            sequence="M2+M3+C"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+      <key
+            commandId="org.tizen.ui.excute.deviceManager"
+            sequence="M2+M3+V"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+      <key
+            commandId="org.tizen.ui.excute.batteryhistorian"
+            sequence="M2+M3+B"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration">
+      </key>
+    </extension>
+</plugin>

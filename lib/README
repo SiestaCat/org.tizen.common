@@ -1,0 +1,17 @@
+image4j
+- Library: image4j.jar
+- Download Site: http://image4j.sourceforge.net/ (http://sourceforge.net/projects/image4j/files/)
+- Release: image4j-core-0.7
+- Release Date: 2008-01-31
+- License: LGPL-v2.1
+- License Site: http://image4j.sourceforge.net/#license (http://opensource.org/licenses/LGPL-2.1)
+
+SVG Salamander
+- Library: svgSalamander-tiny.jar
+- Download Site: https://svgsalamander.java.net/
+- Release: Revision 170
+- Release Date: 2014-02-06
+- License: LGPL and BSD licenses.
+- License Site:
+    - BSD: https://svgsalamander.java.net/license/license-bsd.txt
+    - LGPL: https://svgsalamander.java.net/license/license-bsd.txt

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.tizen.org/tproject" targetNamespace="http://www.tizen.org/tproject">
+
+    <complexType name="platform">
+        <sequence>
+            <element name="name" type="string" maxOccurs="1" minOccurs="1"></element>
+        </sequence>
+    </complexType>
+    
+    <complexType name="platforms">
+    	<sequence>
+    		<element name="platform" type="tns:platform" maxOccurs="unbounded" minOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="tproject">
+    	<complexType>
+    		<all>
+    			<element name="platforms" type="tns:platforms" maxOccurs="1" minOccurs="1"/>
+    			<element name="package" type="tns:package" maxOccurs="1" minOccurs="1"/>
+    			<element name="canUsePrebuiltIndex" type="tns:canUsePrebuiltIndex" maxOccurs="1" minOccurs="0"/>
+    		</all>
+    	</complexType>
+    </element>
+    
+    <complexType name="package">
+    	<sequence>
+    		<element name="blacklist" type="tns:blacklist" maxOccurs="1" minOccurs="1"></element>
+    		<element name="referencedProject" type="tns:library" maxOccurs="unbounded" minOccurs="0"></element>
+    		<element name="resFallback" type="tns:resFallback" maxOccurs="1" minOccurs="0"></element>
+    		<element name="subProjects" type="tns:subProjects" maxOccurs="1" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="resFallback">
+        <attribute name="autoGen" use="required" type="boolean"/>
+    </complexType>
+    <!-- This element is for checking whether a project can use pre-built indexer or not -->
+    <complexType name="canUsePrebuiltIndex">
+        <attribute name="value" use="required" type="boolean"/>
+    </complexType>
+    
+    <complexType name="blacklist">
+        <sequence>
+        	<element name="name" type="tns:name" maxOccurs="unbounded"
+        		minOccurs="0">
+        	</element>
+        	<element name="path" type="tns:path" maxOccurs="unbounded"
+        		minOccurs="0">
+        	</element>
+        	<element name="regex" type="tns:regex" maxOccurs="unbounded"
+        		minOccurs="0">
+        	</element>
+        </sequence>
+    </complexType>
+    
+    <complexType name="referencedProject">
+        <sequence>
+        	<element name="library" type="tns:library" maxOccurs="unbounded"
+        		minOccurs="0">
+        	</element>
+        </sequence>
+    </complexType>
+    
+    <complexType name="subProjects">
+        <sequence>
+            <element name="tizenProject" type="tns:tizenProject" maxOccurs="unbounded"
+                minOccurs="0">
+            </element>
+        </sequence>
+    </complexType>
+    
+    <complexType name="tizenProject">
+        <attribute name="project" type="string" use="required"></attribute>
+        <attribute name="style" type="string"></attribute>
+    </complexType>
+    
+    <complexType name="library">
+    	<attribute name="project" type="string" use="required"></attribute>
+    	<attribute name="path" type="string" use="required"></attribute>
+    </complexType>
+    
+    <complexType name="name">
+        <sequence>
+            <element name="exclude" type="tns:exclude" maxOccurs="unbounded" minOccurs="0"></element>
+        </sequence>
+    	<attribute name="value" type="string" use="required"></attribute>
+    	<attribute name="type" use="optional" default="all">
+    	   <simpleType>
+               <restriction base="string">
+                   <enumeration value="all"/>
+                   <enumeration value="file"/>
+                   <enumeration value="dir"/>
+               </restriction>
+           </simpleType>
+    	</attribute>
+    </complexType>
+
+    <complexType name="path">
+    	<attribute name="value" type="string" use="required"></attribute>
+    	<attribute name="type" use="optional" default="all">
+           <simpleType>
+               <restriction base="string">
+                   <enumeration value="all"/>
+                   <enumeration value="file"/>
+                   <enumeration value="dir"/>
+               </restriction>
+           </simpleType>
+        </attribute>
+    </complexType>
+
+    <complexType name="regex">
+    	<sequence>
+    		<element name="exclude" type="tns:exclude" maxOccurs="unbounded" minOccurs="0"></element>
+    	</sequence>
+    	<attribute name="value" type="string" use="required"></attribute>
+    	<attribute name="type" use="optional" default="all">
+           <simpleType>
+               <restriction base="string">
+                   <enumeration value="all"/>
+                   <enumeration value="file"/>
+                   <enumeration value="dir"/>
+               </restriction>
+           </simpleType>
+        </attribute>
+    </complexType>
+
+    
+    <complexType name="exclude">
+    	<attribute name="value" type="string" use="required"></attribute>
+    	<attribute name="type" use="optional" default="all">
+           <simpleType>
+               <restriction base="string">
+                   <enumeration value="all"/>
+                   <enumeration value="file"/>
+                   <enumeration value="dir"/>
+               </restriction>
+           </simpleType>
+        </attribute>
+    </complexType>
+</schema>
